@@ -45,6 +45,15 @@
         <activity
             android:name=".EditProfile"
             android:exported="false" />
+
+        <activity
+            android:name=".Orden.CrearOrdenFragment"
+            android:exported="false" />
+
+        <activity
+            android:name=".Orden.AgregarArticuloOrden"
+            android:exported="false" />
+
         <activity
             android:name=".Splash"
             android:exported="true">

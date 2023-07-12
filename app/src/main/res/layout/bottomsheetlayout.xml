@@ -34,7 +34,7 @@
 
 
     <LinearLayout
-        android:id="@+id/layoutVideo"
+        android:id="@+id/buttomsheetlayout_orden"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Post"
+            android:text="Orden"
             android:textColor="@color/lavanda"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>

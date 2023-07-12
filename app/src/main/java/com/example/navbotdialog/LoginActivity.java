@@ -78,6 +78,16 @@ public class LoginActivity extends AppCompatActivity {
 
         buttonPassword = findViewById(R.id.passwordIcon);
 
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /*
+
         //Inicio de sesion con google
         googleButton = findViewById(R.id.signInWhithGoogle);
         auth= FirebaseAuth.getInstance();
@@ -180,8 +190,13 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+
+
+        */
+
     }
 
+    /*
     public void iniciarSesion(String email, String password) {
 
         String url = APIUtils.getFullUrl("login");
@@ -269,4 +284,6 @@ public class LoginActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
+
+     */
 }

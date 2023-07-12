@@ -5,7 +5,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,239 +23,239 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.navbotdialog.Fragment.FavoritoFragment;
 import com.example.navbotdialog.Fragment.HomeFragment;
 import com.example.navbotdialog.Fragment.NotificacionesFragment;
+import com.example.navbotdialog.Fragment.OrdenesFragment;
 import com.example.navbotdialog.Fragment.PerfilFragment;
 import com.example.navbotdialog.Herramientas.Calculadora.CalculadoraFragment;
 import com.example.navbotdialog.Herramientas.Conversor.ConversorFragment;
 import com.example.navbotdialog.Herramientas.Notas.NotasFragment;
+import com.example.navbotdialog.Orden.CrearOrdenFragment;
+import com.example.navbotdialog.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private AppBarConfiguration mAppBarConfiguration;
+    private ActivityMainBinding binding;
+    private int selectedTab = 1;
     FloatingActionButton fab;
-    BottomNavigationView bottomNavigationView;
-    private CoordinatorLayout coordinatorLayout1;
-    private CoordinatorLayout coordinatorLayout2;
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-    BottomNavigationView var_bNView_Herramientas;
-    private ActionBarDrawerToggle toggle;
+    private LinearLayout homeLayout, ordenLayout, notifLayout, perfilLayout;
+    private LottieAnimationView homeIcon, ordenIcon, notifIcon, perfilIcon;
+    private TextView homeText, ordenText, notifText, perfilText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        //Obtener el id de usuario
-        UserSession userSession = UserSession.getInstance();
-        int userId = userSession.getUserId();
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        coordinatorLayout1 = findViewById(R.id.coordinatorLayout1);
-        coordinatorLayout2 = findViewById(R.id.coordinatorLayout2);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        var_bNView_Herramientas = findViewById(R.id.bottomNavigationView_Herramientas);
-
-        // Menu lateral
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                // Cerrar el menú lateral después de la selección
-                drawerLayout.closeDrawer(GravityCompat.START);
-
-                // Obtener el id del elemento seleccionado
-                int itemId = item.getItemId();
-
-                // Cambiar la visibilidad de los CoordinatorLayout según la selección
-                if (itemId == R.id.menu_home) {
-                    showCoordinatorLayout1();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
-                } else if (itemId == R.id.menu_herramientas) {
-                    showCoordinatorLayout2();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new CalculadoraFragment()).commit();
-                } else if (itemId == R.id.salir) {
-                    showExitDialog();
-                }
-
-                return true;
-            }
-        });
-
-        // Mostrar el CoordinatorLayout1 por defecto al iniciar la actividad
-        showCoordinatorLayout1();
-
+        //declarar variables
+        homeLayout = findViewById(R.id.Home_Layout);
+        ordenLayout = findViewById(R.id.Ordenes_Layout);
+        notifLayout = findViewById(R.id.Notificaciones_Layout);
+        perfilLayout = findViewById(R.id.Perfil_Layout);
         fab = findViewById(R.id.fab);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        /*homeIcon = findViewById(R.id.lottie_layer_home);
+        ordenIcon = findViewById(R.id.lottie_layer_Ordenes);
+        notifIcon = findViewById(R.id.lottie_layer_Notificaciones);
+        perfilIcon = findViewById(R.id.lottie_layer_Perfil);*/
+
+        homeText = findViewById(R.id.Home_text);
+        ordenText = findViewById(R.id.Ordenes_text);
+        notifText = findViewById(R.id.Notificaciones_text);
+        perfilText = findViewById(R.id.Perfil_text);
         //
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //HOME
+        homeLayout.setOnClickListener(view -> {
+             NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_content_main);
+            MenuItem item = binding.navView.getMenu().findItem(R.id.nav_home);
+            NavigationUI.onNavDestinationSelected(item,navController);
+            DrawerLayout drawerLayout = binding.drawerLayout;
+            drawerLayout.closeDrawer(GravityCompat.START);
 
-        if (savedInstanceState == null) {
-            // Mostrar el fragmento inicial al iniciar la actividad
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
-        }
+           if (selectedTab != 1) {
+                //visivilidad del texto
+                ordenText.setVisibility(View.GONE);
+                notifText.setVisibility(View.GONE);
+                perfilText.setVisibility(View.GONE);
 
-        //Menu de abajo Principal
-        bottomNavigationView.setBackground(null);
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //Cancelar animaciones
+                /*ordenIcon.cancelAnimation();
+                notifIcon.cancelAnimation();
+                perfilIcon.cancelAnimation();
+                */
 
-                int animationHeight = 100; // Alto deseado en píxeles
-                int topMargin = 20; // Margen superior en píxeles
-                switch (item.getItemId()) {
-                    case R.id.nav_home:
-                        replaceFragment(new HomeFragment());
+                //Color de fondo
+                ordenLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                notifLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                perfilLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
-                        // Cargar y reproducir la animación Lottie
-                        LottieAnimationView animationView = new LottieAnimationView(getApplicationContext());
-                        animationView.setAnimation(R.raw.home);
-                        animationView.playAnimation();
-
-                        // Obtener el contenedor FrameLayout del fragmento
-                        FrameLayout frameLayout = findViewById(R.id.nav_home);
-                        frameLayout.removeAllViews(); // Limpiar cualquier vista anterior
-
-                        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.WRAP_CONTENT,
-                                animationHeight
-                        );
-                        layoutParams.topMargin = topMargin; // Establecer el margen superior
-                        animationView.setLayoutParams(layoutParams);
-
-                        // Agregar el LottieAnimationView al contenedor FrameLayout
-                        frameLayout.addView(animationView);
-
-                        break;
-                    case R.id.nav_love:
-                        replaceFragment(new FavoritoFragment());
-                        LottieAnimationView loveView = new LottieAnimationView(getApplicationContext());
-                        loveView.setAnimation(R.raw.ubication);
-                        loveView.playAnimation();
-                        FrameLayout loveLayout = findViewById(R.id.nav_love);
-                        loveLayout.removeAllViews();
-
-                        ViewGroup.LayoutParams layoutParams1 = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT
-                        );
-                        loveView.setLayoutParams(layoutParams1);
-                        loveLayout.addView(loveView);
-                        break;
-                    case R.id.nav_notificaciones:
-                        replaceFragment(new NotificacionesFragment());
-                        LottieAnimationView notifyView = new LottieAnimationView(getApplicationContext());
-                        notifyView.setAnimation(R.raw.notify);
-                        notifyView.playAnimation();
-                        FrameLayout notifyLayout = findViewById(R.id.nav_notificaciones);
-                        notifyLayout.removeAllViews();
-
-                        ViewGroup.LayoutParams layoutParams2 = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT,
-                                FrameLayout.LayoutParams.MATCH_PARENT
-                        );
-                        notifyView.setLayoutParams(layoutParams2);
-                        notifyLayout.addView(notifyView);
-                        break;
-                    case R.id.nav_perfil:
-                        replaceFragment(new PerfilFragment());
-                        LottieAnimationView profileView = new LottieAnimationView(getApplicationContext());
-                        profileView.setAnimation(R.raw.userss);
-                        profileView.playAnimation();
-                        FrameLayout profileLayout = findViewById(R.id.nav_perfil);
-                        profileLayout.removeAllViews();
-                        ViewGroup.LayoutParams layoutParams3 = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT,
-                                FrameLayout.LayoutParams.MATCH_PARENT
-                        );
-                        profileView.setLayoutParams(layoutParams3);
-                        profileLayout.addView(profileView);
-                        break;
-                }
-
-                return true;
+                homeLayout.setBackgroundResource(R.drawable.menu_item);
+                homeText.setVisibility(View.VISIBLE);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 1f, 1f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f);
+                scaleAnimation.setDuration(200);
+                scaleAnimation.setFillAfter(true);
+                homeLayout.startAnimation(scaleAnimation);
+                //homeIcon.playAnimation();
+                selectedTab = 1;
             }
         });
 
-        //Menu de abajo Secundario
-        var_bNView_Herramientas.setBackground(null);
-        var_bNView_Herramientas.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        //Ordenes
+        ordenLayout.setOnClickListener(view -> {
+            NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_content_main);
+            MenuItem item = binding.navView.getMenu().findItem(R.id.nav_ordenes);
+            NavigationUI.onNavDestinationSelected(item,navController);
+            DrawerLayout drawerLayout = binding.drawerLayout;
+            drawerLayout.closeDrawer(GravityCompat.START);
 
-                int animationHeight = 100; // Alto deseado en píxeles
-                int topMargin = 20; // Margen superior en píxeles
+            if (selectedTab != 2) {
+                //visivilidad del texto
+                homeText.setVisibility(View.GONE);
+                notifText.setVisibility(View.GONE);
+                perfilText.setVisibility(View.GONE);
 
-                switch (item.getItemId()) {
-                    case R.id.nav_calculadora:
-                        replaceFragment(new CalculadoraFragment());
+                //Cancelar animaciones
+                /*homeIcon.cancelAnimation();
+                notifIcon.cancelAnimation();
+                perfilIcon.cancelAnimation();
+                */
 
-                        LottieAnimationView calculadoraView = new LottieAnimationView(getApplicationContext());
-                        calculadoraView.setAnimation(R.raw.calculadora);
-                        calculadoraView.playAnimation();
+                //Color de fondo
+                homeLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                notifLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                perfilLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
-                        FrameLayout calculadoraLayout = findViewById(R.id.nav_calculadora);
-                        calculadoraLayout.removeAllViews();
-                        ViewGroup.LayoutParams layoutParams1 = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT,
-                                FrameLayout.LayoutParams.MATCH_PARENT
-                        );
-                        calculadoraView.setLayoutParams(layoutParams1);
-                        calculadoraLayout.addView(calculadoraView);
-                        break;
+                ordenLayout.setBackgroundResource(R.drawable.menu_item);
+                ordenText.setVisibility(View.VISIBLE);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 1f, 1f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f);
+                scaleAnimation.setDuration(200);
+                scaleAnimation.setFillAfter(true);
+                ordenLayout.startAnimation(scaleAnimation);
+                //ordenIcon.playAnimation();
+                selectedTab = 2;
+            }
 
-                    case R.id.nav_conversor:
-                        replaceFragment(new ConversorFragment());
-                        LottieAnimationView conversorView = new LottieAnimationView(getApplicationContext());
-                        conversorView.setAnimation(R.raw.conversor);
-                        conversorView.playAnimation();
-                        FrameLayout conversorLayout = findViewById(R.id.nav_conversor);
-                        conversorLayout.removeAllViews();
 
-                        ViewGroup.LayoutParams layoutParams2 = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT,
-                                FrameLayout.LayoutParams.MATCH_PARENT
-                        );
-                        conversorView.setLayoutParams(layoutParams2);
-                        conversorLayout.addView(conversorView);
-                        break;
+        });
 
-                    case R.id.nav_notas:
-                        replaceFragment(new NotasFragment());
-                        LottieAnimationView notasView = new LottieAnimationView(getApplicationContext());
-                        notasView.setAnimation(R.raw.blog);
-                        notasView.playAnimation();
-                        FrameLayout notasLayout = findViewById(R.id.nav_notas);
-                        notasLayout.removeAllViews();
-                        ViewGroup.LayoutParams layoutParams3 = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT,
-                                FrameLayout.LayoutParams.MATCH_PARENT
-                        );
-                        notasView.setLayoutParams(layoutParams3);
-                        notasLayout.addView(notasView);
-                        break;
-                }
-                return true;
+        //Notificaciones
+        notifLayout.setOnClickListener(view -> {
+            NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_content_main);
+            MenuItem item = binding.navView.getMenu().findItem(R.id.nav_notificaciones);
+            NavigationUI.onNavDestinationSelected(item,navController);
+            DrawerLayout drawerLayout = binding.drawerLayout;
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+            if (selectedTab != 3) {
+                //visivilidad del texto
+                ordenText.setVisibility(View.GONE);
+                homeText.setVisibility(View.GONE);
+                perfilText.setVisibility(View.GONE);
+
+                //Cancelar animaciones
+                /*ordenIcon.cancelAnimation();
+                notifIcon.cancelAnimation();
+                perfilIcon.cancelAnimation();
+                */
+
+                //Color de fondo
+                ordenLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                homeLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                perfilLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+                notifLayout.setBackgroundResource(R.drawable.menu_item);
+                notifText.setVisibility(View.VISIBLE);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 1f, 1f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f);
+                scaleAnimation.setDuration(200);
+                scaleAnimation.setFillAfter(true);
+                notifLayout.startAnimation(scaleAnimation);
+                //notifIcon.playAnimation();
+                selectedTab = 3;
             }
         });
 
-        //Boton flotante
+        //Perfil
+        perfilLayout.setOnClickListener(view -> {
+            NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_content_main);
+            MenuItem item = binding.navView.getMenu().findItem(R.id.nav_perfil);
+            NavigationUI.onNavDestinationSelected(item,navController);
+            DrawerLayout drawerLayout = binding.drawerLayout;
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+            if (selectedTab != 4) {
+                //visivilidad del texto
+                ordenText.setVisibility(View.GONE);
+                notifText.setVisibility(View.GONE);
+                homeText.setVisibility(View.GONE);
+
+                //Cancelar animaciones
+                /*ordenIcon.cancelAnimation();
+                notifIcon.cancelAnimation();
+                perfilIcon.cancelAnimation();
+                */
+
+                //Color de fondo
+                ordenLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                notifLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                homeLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+                perfilLayout.setBackgroundResource(R.drawable.menu_item);
+                perfilText.setVisibility(View.VISIBLE);
+               ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 1f, 1f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f);
+                scaleAnimation.setDuration(200);
+                scaleAnimation.setFillAfter(true);
+                perfilLayout.startAnimation(scaleAnimation);
+                //perfilIcon.playAnimation();
+                selectedTab = 4;
+            }
+
+
+        });
+
+        setSupportActionBar(binding.appBarMain.toolbar);
+        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, CrearOrdenFragment.class);
+                startActivity(intent);
+
+            }
+        });
+        DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationView = binding.navView;
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_ordenes, R.id.nav_notificaciones, R.id.nav_perfil)
+                .setOpenableLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -267,44 +266,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+
     }
 
-    //Contenido del fragmento
-    private  void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
-        fragmentTransaction.commit();
-    }
-
-    //Boton flotante
     private void showBottomDialog() {
 
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottomsheetlayout);
 
-        LinearLayout videoLayout = dialog.findViewById(R.id.layoutVideo);
-        videoLayout.setOnClickListener(new View.OnClickListener() {
+        LinearLayout post_layot = dialog.findViewById(R.id.buttomsheetlayout_orden);
+        post_layot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Upload a Video is clicked",Toast.LENGTH_SHORT).show();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.drawer_layout, new CrearOrdenFragment());
+                fragmentTransaction.commit();
 
             }
         });
@@ -315,36 +307,4 @@ public class MainActivity extends AppCompatActivity {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
-
-    //Menu lateral
-    private void showCoordinatorLayout1() {
-        coordinatorLayout1.setVisibility(View.VISIBLE);
-        coordinatorLayout2.setVisibility(View.GONE);
-    }
-
-    private void showCoordinatorLayout2() {
-        coordinatorLayout1.setVisibility(View.GONE);
-        coordinatorLayout2.setVisibility(View.VISIBLE);
-    }
-
-    private void showExitDialog() {
-        // Aquí puedes mostrar un diálogo de confirmación o cualquier otro tipo de mensaje
-        // en lugar de un Toast
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Salir")
-                .setMessage("¿Estás seguro de que deseas salir?")
-                .setPositiveButton("Salir", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish(); // Finalizar la actividad para salir
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("Cancelar", null)
-                .show();
-    }
-
-
-
 }

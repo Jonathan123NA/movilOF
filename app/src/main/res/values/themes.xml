@@ -17,15 +17,15 @@
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in</item>
         <item name="android:windowExitAnimation">@anim/slide_out</item>
-
-
     </style>
 
     <style name="Theme.NavBotDialog.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="Theme.OrdenFacil.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <style name="Theme.OrdenFacil.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>
