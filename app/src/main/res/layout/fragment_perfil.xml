@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gris_claro"
+    tools:context=".Fragment.PerfilFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linearLayouOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/Azulapp"
+            android:paddingBottom="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Perfil"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+
+            <LinearLayout
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:padding="4dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_background">
+
+                <ImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_avatar"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-40dp"
+                android:background="@drawable/rounded_background">
+
+                <ImageView
+                    android:id="@+id/takePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="2dp"
+                    android:src="@drawable/camera" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/nameProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Usuario"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/emailProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="correo@gmail.com"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <!-- Categoria -->
+        <LinearLayout
+            android:id="@id/linearCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:layout_below="@+id/linearLayouOne"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Tipo de Usuario:"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:id="@+id/categoryTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Repartidor"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                />
+
+        </LinearLayout>
+
+        <!-- Listar habilidades -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/linearCategoria"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/skillsProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Otros Datos:"
+                android:paddingLeft="10dp"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                />
+
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="top|end"
+        android:src="@drawable/ic_editperfil"
+        android:background="@android:color/transparent"
+        android:padding="10dp"
+        android:contentDescription="Botón de configuración" />
+
+</FrameLayout>
