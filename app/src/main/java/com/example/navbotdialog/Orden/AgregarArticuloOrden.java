@@ -4,18 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.navbotdialog.R;
-import com.example.navbotdialog.forgetPassword;
-import com.example.navbotdialog.verifyCode;
 
 public class AgregarArticuloOrden extends AppCompatActivity {
 
@@ -28,7 +22,10 @@ public class AgregarArticuloOrden extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agregar_articulo_orden);
 
-        intent = new Intent(AgregarArticuloOrden.this, CrearOrdenFragment.class);
+        Toolbar toolbar = findViewById(R.id.AAO_toolbar);
+        setSupportActionBar(toolbar);
+
+        intent = new Intent(AgregarArticuloOrden.this, CrearOrden.class);
 
 
         imagen_salvar = findViewById(R.id.aao_imagen_salvar);
@@ -39,6 +36,14 @@ public class AgregarArticuloOrden extends AppCompatActivity {
 
                 startActivity(intent);
 
+            }
+        });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Regresar a la pantalla anterior
             }
         });
     }

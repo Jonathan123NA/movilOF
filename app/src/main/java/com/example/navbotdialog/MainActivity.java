@@ -1,16 +1,13 @@
 package com.example.navbotdialog;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,31 +22,20 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.navbotdialog.Fragment.FavoritoFragment;
-import com.example.navbotdialog.Fragment.HomeFragment;
-import com.example.navbotdialog.Fragment.NotificacionesFragment;
-import com.example.navbotdialog.Fragment.OrdenesFragment;
-import com.example.navbotdialog.Fragment.PerfilFragment;
-import com.example.navbotdialog.Herramientas.Calculadora.CalculadoraFragment;
-import com.example.navbotdialog.Herramientas.Conversor.ConversorFragment;
-import com.example.navbotdialog.Herramientas.Notas.NotasFragment;
-import com.example.navbotdialog.Orden.CrearOrdenFragment;
+import com.example.navbotdialog.Orden.AgregarArticuloOrden;
+import com.example.navbotdialog.Orden.CrearOrden;
 import com.example.navbotdialog.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         //HOME
         homeLayout.setOnClickListener(view -> {
-             NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_content_main);
+            NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment_content_main);
             MenuItem item = binding.navView.getMenu().findItem(R.id.nav_home);
             NavigationUI.onNavDestinationSelected(item,navController);
             DrawerLayout drawerLayout = binding.drawerLayout;
@@ -238,9 +224,7 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(MainActivity.this, CrearOrdenFragment.class);
-                startActivity(intent);
+                showBottomDialog();
 
             }
         });
@@ -256,12 +240,39 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        //Salir
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                showBottomDialog();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // Obtener el ID del elemento de menú seleccionado
+                int id = item.getItemId();
+
+                if (id == R.id.salir) {
+                    // Mostrar el cuadro de diálogo de confirmación antes de salir
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("¿Estás seguro de que deseas salir?");
+                    builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Realizar acciones para continuar (redirigir al login, por ejemplo)
+                            // ...
+
+                            // Redirigir al login
+                             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                             startActivity(loginIntent);
+                             finish();
+                        }
+                    });
+                    builder.setNegativeButton("Cancelar", null);
+                    builder.show();
+                }
+
+                // ...
+
+                return true;
             }
         });
+
 
     }
 
@@ -277,9 +288,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-
     }
-
     private void showBottomDialog() {
 
         final Dialog dialog = new Dialog(this);
@@ -292,11 +301,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 dialog.dismiss();
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.drawer_layout, new CrearOrdenFragment());
-                fragmentTransaction.commit();
+                Intent intent = new Intent(MainActivity.this, CrearOrden.class);
+                startActivity(intent);
 
             }
         });

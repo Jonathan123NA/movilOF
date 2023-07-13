@@ -28,4 +28,11 @@
         android:name="com.example.navbotdialog.Fragment.PerfilFragment"
         android:label="Perfil"
         tools:layout="@layout/fragment_perfil" />
+
+    <fragment
+        android:id="@+id/nav_crearOrden"
+        android:name="com.example.navbotdialog.Orden.CrearOrden"
+        android:label="Crear Orden"
+        tools:layout="@layout/actuvity_crear_orden" />
+
 </navigation>
