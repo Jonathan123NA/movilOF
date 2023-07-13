@@ -141,9 +141,12 @@ public class PerfilFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Obtener el id de usuario
+        // Obtener el id de usuario de UserSession
         UserSession userSession = UserSession.getInstance();
         int userId = userSession.getUserId();
+
+        // Realizar la solicitud GET para obtener los datos del usuario
+        getUserData(userId);
 
         // Inflar el diseño del fragmento
         View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
@@ -152,9 +155,6 @@ public class PerfilFragment extends Fragment {
         nameProfileTV = rootView.findViewById(R.id.nameProfile);
         emailProfileTV = rootView.findViewById(R.id.emailProfile);
         categoryTV = rootView.findViewById(R.id.categoryTV);
-
-        // Realizar la solicitud GET para obtener los datos del usuario
-        getUserData(userId);
 
         // Asignar el ImageButton
         settingsButton = rootView.findViewById(R.id.settingsButton);
@@ -401,7 +401,7 @@ public class PerfilFragment extends Fragment {
     //Peticon GET
     private void getUserData(int userId) {
         // Construir la URL de la solicitud GET
-        String url = APIUtils.getFullUrl("/usuarios/" + userId);
+        String url = APIUtils.getFullUrl("/api/usuarios/" + userId); // Ajusta la ruta según la API de tu servidor
 
         // Realizar la solicitud GET con Volley
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -412,16 +412,14 @@ public class PerfilFragment extends Fragment {
 
                         try {
                             // Obtener los datos del usuario del objeto JSON response
-                            String userName = response.getString("nombres");
+                            String userName = response.getString("nombre");
                             String userEmail = response.getString("email");
-                            String userRole = response.getString("rol");
-                            String userPhone = response.getString("telefono");
+                            // Otros campos del usuario
 
                             // Mostrar los datos en los TextView
                             nameProfileTV.setText(userName);
                             emailProfileTV.setText(userEmail);
-                            categoryTV.setText(userRole);
-                            // phoneProfileTV.setText(userPhone);
+                            // Otros TextView
 
                         } catch (JSONException e) {
                             e.printStackTrace();

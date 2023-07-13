@@ -182,6 +182,8 @@ public class LoginActivity extends AppCompatActivity {
                                         boolean loggedIn = response.getBoolean("loggedIn");
                                         if (loggedIn) {
                                             // Credenciales válidas, iniciar sesión en la aplicación
+                                            //int userId = response.getInt("id"); // Obtener el ID del usuario de la respuesta del servidor
+                                            //UserSession.getInstance().setUserId(userId); // Establecer el ID del usuario en la sesión
                                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(intent);
                                         } else {
