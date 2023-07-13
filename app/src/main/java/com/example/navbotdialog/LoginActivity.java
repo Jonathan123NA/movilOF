@@ -57,13 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     LinearLayout enviar_a_Registro;
     boolean passwordVisible = false;
     ImageView buttonPassword;
-    RelativeLayout googleButton;
-    FirebaseAuth auth;
-    FirebaseDatabase dataFire;
-    GoogleSignInClient mGoogleSignInClient;
-    ProgressDialog progressDialog;
 
-    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,34 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
         buttonPassword = findViewById(R.id.passwordIcon);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        /*
-
-        //Inicio de sesion con google
-        googleButton = findViewById(R.id.signInWhithGoogle);
-        auth= FirebaseAuth.getInstance();
-        dataFire= FirebaseDatabase.getInstance();
-
-        progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setTitle("Cuenta en proceso");
-        progressDialog.setMessage("Estamos creando su cuenta");
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                        .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
-
-        //TextView singUpRedirectedText = findViewById(R.id.forgetPassword);
-        String text = "Olvidaste tu contraseña";
-        forgetPassword.setText(Html.fromHtml(text));
+        iniciarSesion();
 
         buttonPassword.setOnClickListener(new View.OnClickListener() {
 
@@ -170,6 +137,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void iniciarSesion() {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,107 +153,50 @@ public class LoginActivity extends AppCompatActivity {
                     passwordEditText.setError("Campo obligatorio");
                 } else {
                     // Los campos no están vacíos, realizar el inicio de sesión
-                    iniciarSesion(email, password);
 
+                    // Crear una solicitud HTTP para verificar las credenciales
+                    RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+                    String route = "/api/verificar-credenciales"; // Ruta específica del endpoint
+                    String url = APIUtils.getFullUrl(route);
+
+                    Map<String, String> params = new HashMap<>();
+                    params.put("email", email);
+                    params.put("password", password);
+
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    // Manejar la respuesta del servidor
+                                    try {
+                                        boolean loggedIn = response.getBoolean("loggedIn");
+                                        if (loggedIn) {
+                                            // Credenciales válidas, iniciar sesión en la aplicación
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            // Credenciales inválidas, mostrar mensaje de error
+                                            Toast.makeText(LoginActivity.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // Manejar el error de la solicitud HTTP
+                                    Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                    // Agregar la solicitud a la cola
+                    queue.add(request);
                 }
             }
         });
 
-
-
-
-        */
-
     }
 
-    /*
-    public void iniciarSesion(String email, String password) {
-
-        String url = APIUtils.getFullUrl("login");
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("email", email);
-            jsonObject.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // La solicitud fue exitosa y se recibió una respuesta del servidor
-                        // Procesar la respuesta del servidor
-
-
-                        try {
-                            String message = response.getString("message");
-                            JSONObject userObject = response.optJSONObject("user");
-
-
-                            if (userObject != null) {
-
-                                Log.d("LoginActivity", "Response: " + response.toString());
-
-                                //Resibir Id de usuario con la respuesta del swervidor
-                                int userId = userObject.optInt("idUser", 0);
-
-                                UserSession userSession = UserSession.getInstance();
-                                userSession.setUserId(userId);
-
-
-                                //Mandar id a otra interfaz para poder ser utilizada
-                                Bundle bundle = new Bundle();
-                                bundle.putInt("userId", userId);
-                                PerfilFragment perfilFragment = new PerfilFragment();
-                                perfilFragment.setArguments(bundle);
-
-                                Log.d("LoginActivity", message);
-                                Log.d("LoginActivity", "User ID: " + userId);
-
-                                Intent idUser = new Intent(LoginActivity.this, PerfilFragment.class);
-                                idUser.putExtra("userId", userId);
-                                startActivity(idUser);
-
-
-                                if (message.equals("Inicio de sesión exitoso")) {
-                                    // La conexión fue exitosa y el usuario está autenticado
-                                    // Redireccionar a MainActivity
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish(); // Opcionalmente, finalizar la actividad actual
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Contraseña o usuario incorrecto", Toast.LENGTH_SHORT).show();
-                                    // La conexión fue exitosa, pero hubo un error en la autenticación
-                                    // Puedes mostrar un mensaje de error o realizar otras acciones
-                                }
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Usuario incorrecto", Toast.LENGTH_SHORT).show();
-                                // El campo "user" es nulo en el objeto JSON
-                                // Manejar este caso según tus necesidades
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            // Manejar la excepción JSONException aquí
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Ocurrió un error en la solicitud
-                        // Registrar el error en los registros de la aplicación
-                        Log.e("LoginActivity", "Error en la solicitud HTTP: " + error.toString());
-                        Toast.makeText(LoginActivity.this, "Datos incorrectos", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-        // Agregar la solicitud a la cola de solicitudes de Volley
-        Volley.newRequestQueue(this).add(jsonObjectRequest);
-    }
-
-
-     */
 }

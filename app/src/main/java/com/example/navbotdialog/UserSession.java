@@ -5,7 +5,7 @@ public class UserSession {
     private int userId;
 
     private UserSession() {
-        // Constructor privado para evitar la creación de instancias fuera de la clase
+        // Constructor privado para evitar la creación de instancias directas
     }
 
     public static synchronized UserSession getInstance() {
@@ -15,12 +15,12 @@ public class UserSession {
         return instance;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public int getUserId() {
         return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
 

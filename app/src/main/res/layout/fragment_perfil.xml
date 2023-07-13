@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Usuario"
+                android:text="Nombres"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -103,7 +103,7 @@
                 android:paddingLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Tipo de Usuario:"
+                android:text="Tipo de Rol:"
                 android:textColor="@color/grey"
                 android:textStyle="bold"
                 android:textSize="15sp"
@@ -145,7 +145,16 @@
                 android:textSize="15sp"
                 />
 
-
+            <TextView
+                android:id="@+id/phoneProfileTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Teléfono"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20dp" />
 
 
         </LinearLayout>

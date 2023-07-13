@@ -140,27 +140,21 @@ public class PerfilFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        //Obtener el id de usuario
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Obtener el id de usuario
         UserSession userSession = UserSession.getInstance();
         int userId = userSession.getUserId();
-        //Log.d("PerfilFragment", "User ID Fragment: " + userId);
 
         // Inflar el diseño del fragmento
         View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        //Asignar datos
+        // Asignar datos
         nameProfileTV = rootView.findViewById(R.id.nameProfile);
         emailProfileTV = rootView.findViewById(R.id.emailProfile);
         categoryTV = rootView.findViewById(R.id.categoryTV);
-        //skillsListlv = rootView.findViewById(R.id.skillsList);
-
 
         // Realizar la solicitud GET para obtener los datos del usuario
         getUserData(userId);
-
 
         // Asignar el ImageButton
         settingsButton = rootView.findViewById(R.id.settingsButton);
@@ -172,19 +166,20 @@ public class PerfilFragment extends Fragment {
             }
         });
 
-        //Asiganación a elementos de camara
+        // Asignar elementos de la cámara y la galería
         takePhoto = rootView.findViewById(R.id.takePhoto);
         imgProfile = rootView.findViewById(R.id.imgProfile);
 
-        //Mostar menú para abrir la camara o galeria
+        // Mostrar menú para abrir la cámara o la galería
         registerForContextMenu(takePhoto);
         takePhoto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    v.showContextMenu();
-                }
-            });
-        //Mostar menú para abrir la camara o galeria
+            @Override
+            public void onClick(View v) {
+                v.showContextMenu();
+            }
+        });
+
+        // Mostrar menú para abrir la cámara o la galería
         registerForContextMenu(imgProfile);
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +190,7 @@ public class PerfilFragment extends Fragment {
 
         return rootView;
     }
+
 
     private String imagePath;
 
@@ -384,8 +380,6 @@ public class PerfilFragment extends Fragment {
     }
 
 
-
-
     //Ajustar propiedades de la fotografia
     private Bitmap getRoundedBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
@@ -407,7 +401,7 @@ public class PerfilFragment extends Fragment {
     //Peticon GET
     private void getUserData(int userId) {
         // Construir la URL de la solicitud GET
-        String url = APIUtils.getFullUrl("user/" + userId);
+        String url = APIUtils.getFullUrl("/usuarios/" + userId);
 
         // Realizar la solicitud GET con Volley
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -418,25 +412,16 @@ public class PerfilFragment extends Fragment {
 
                         try {
                             // Obtener los datos del usuario del objeto JSON response
-                            String userName = response.getString("nameUser");
+                            String userName = response.getString("nombres");
                             String userEmail = response.getString("email");
-                            String userCategory = response.getString("categoria");
-                            //String[] skillsList = response.getString("skills").split(",");
-
-                            //System.out.println("Skills: " + skillsList);
-
-                            String urlFoto = response.getString("routesPhoto");
+                            String userRole = response.getString("rol");
+                            String userPhone = response.getString("telefono");
 
                             // Mostrar los datos en los TextView
                             nameProfileTV.setText(userName);
                             emailProfileTV.setText(userEmail);
-                            categoryTV.setText(userCategory);
-
-                            /*
-                            if(isAdded()){
-                                ArrayAdapter<String> skills = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, skillsList);
-                                skillsListlv.setAdapter(skills);
-                            }*/
+                            categoryTV.setText(userRole);
+                            // phoneProfileTV.setText(userPhone);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -457,4 +442,5 @@ public class PerfilFragment extends Fragment {
         // Agregar la solicitud a la cola de solicitudes de Volley
         Volley.newRequestQueue(getActivity()).add(jsonObjectRequest);
     }
+
 }

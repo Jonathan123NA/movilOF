@@ -8,11 +8,11 @@
     android:background="@color/fondo"
     tools:context=".LoginActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,65 +103,7 @@
                         android:textColor="@color/Azulapp"
                         android:textSize="14sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="20dp">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_toStartOf="@+id/orTxt"
-                            android:background="#1A000000" />
-
-                        <TextView
-                            android:id="@+id/orTxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="O"
-                            android:textColor="#000000"
-                            android:textSize="12sp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_toEndOf="@+id/orTxt"
-                            android:background="#1A000000" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/signInWhithGoogle"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/background_gris">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="20dp"
-                            android:adjustViewBounds="true"
-                            android:paddingRight="10dp"
-                            android:src="@drawable/ico_google" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="Inicia sesión con Google"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/enviar_a_Registro"
