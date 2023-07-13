@@ -139,6 +139,14 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private boolean isValidEmail(String email) {
+        // Expresión regular para validar el formato del correo electrónico
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        // Verificar si el correo electrónico coincide con el patrón
+        return email.matches(emailPattern);
+    }
+
     private void iniciarSesion() {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +157,8 @@ public class LoginActivity extends AppCompatActivity {
                 // Validar campos vacíos
                 if (email.isEmpty()) {
                     emailEditText.setError("Campo obligatorio");
+                } else if (!isValidEmail(email)) {
+                    emailEditText.setError("Correo electrónico inválido");
                 } else if (password.isEmpty()) {
                     passwordEditText.setError("Campo obligatorio");
                 } else {
