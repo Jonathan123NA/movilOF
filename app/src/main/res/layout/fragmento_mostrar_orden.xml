@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Orden.CrearOrden">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/CO_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/Theme.OrdenFacil.PopupOverlay" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="50dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:paddingTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Crear Orden"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="No. de Orden"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <EditText
+                    android:id="@+id/co_orden"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:hint="No. Orden"
+                    android:background="@drawable/background_edit_text"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    android:maxLength="25"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Descripción"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <EditText
+                    android:id="@+id/co_descripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:hint="Descripción"
+                    android:background="@drawable/background_edit_text"
+                    android:maxLines="10"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    android:maxLength="100"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Fecha de envio"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:id="@+id/co_fecha_Inicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:hint="dd/mm/yyyy hh:mm"
+                    android:background="@drawable/background_edit_text"
+                    android:maxLines="1"
+                    android:inputType="datetime"
+                    android:textSize="16sp"
+                    android:maxLength="25"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Fecha de entrega"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    />
+
+                <EditText
+                    android:id="@+id/co_fecha_Fin"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:hint="dd/mm/yyyy hh:mm"
+                    android:background="@drawable/background_edit_text"
+                    android:maxLines="1"
+                    android:inputType="datetime"
+                    android:textSize="16sp"
+                    android:maxLength="25"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Articulos"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/lista_articulosAgregados"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"/>
+
+                </ScrollView>
+
+                <Button
+                    android:id="@+id/co_btn_agregararticulo"
+                    android:layout_width="58dp"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="#3D69BF"
+                    android:elevation="200dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:drawableLeft="@drawable/ico_mas"
+                    android:textColor="@color/Blanco"
+                    android:translationZ="200dp"
+                    app:cornerRadius="100dp" />
+
+                <Button
+                    android:id="@+id/co_btn_crearOrden"
+                    android:layout_width="370dp"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="#3D69BF"
+                    android:elevation="200dp"
+                    android:layout_gravity="center"
+                    android:text="Crear Orden"
+                    android:textColor="@color/Blanco"
+                    android:translationZ="200dp"
+                    app:cornerRadius="100dp" />
+
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>
