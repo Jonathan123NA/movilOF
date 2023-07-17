@@ -23,10 +23,13 @@
     <color name="claro">#05C6C1C1</color>
     <color name="boton">#F8A19C9C</color>
     <color name="Rosita">#F114B2</color>
-    <color name="azul">#368690</color>
+    <color name="azul">#47AFBC</color>
     <color name="gris">#BFD4D6</color>
     <color name="lavanda">#6083C6</color>
     <color name="fondo">#F7DDF6FA</color>
+    <color name="fondo1">#F7DDF6FA</color>
+    <color name="fondo2">#9CF2FF</color>
+    <color name="fondo3">#F775ECFF</color>
     <color name="lavanda_claro">#43009688</color>
     <color name="grisObscuro">#14191D</color>
     <color name="gris_claro">#86A4A9AA</color>

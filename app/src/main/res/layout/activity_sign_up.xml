@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/fondoemployme"
+    android:background="@drawable/fondo_degradado"
     tools:context=".SignUpActivity">
 
     <ScrollView
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:text="Registrarse"
                     android:textAlignment="center"
-                    android:textColor="@color/azul"
+                    android:textColor="@color/Azulapp"
                     android:textSize="36sp"
                     android:textStyle="bold" />
 
@@ -135,41 +135,6 @@
                         />
 
                 </RelativeLayout>
-                <!-- <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/cuadro_editext">
-
-                    <EditText
-                        android:id="@+id/conpasswordUser2"
-                        android:layout_toStartOf="@+id/conpasswordIcon"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:drawableLeft="@drawable/ico_lock"
-                        android:background="@drawable/cuadro_editext"
-                        android:hint="Confirmar password"
-                        android:gravity="center_vertical"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:textSize="16sp"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        />
-
-                    <ImageView
-                        android:id="@+id/conpasswordIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:padding="10dp"
-                        android:src="@drawable/ico_visibility_off"
-                        android:adjustViewBounds="true"
-                        android:layout_marginTop="20dp"
-                        />
-
-                </RelativeLayout> -->
 
                 <Button
                     android:id="@+id/btnRegisterUser"
@@ -180,7 +145,7 @@
                     app:cornerRadius="10dp"
                     android:text="Registrarse"
                     android:textColor="@color/white"
-                    android:backgroundTint="@color/azul"
+                    android:backgroundTint="@color/Azulapp"
                     android:textAllCaps="true"
                     />
 
@@ -193,7 +158,7 @@
                     android:padding="8dp"
                     android:text="Longin"
                     android:textAlignment="center"
-                    android:textColor="@color/azul"
+                    android:textColor="@color/Azulapp"
                     android:textSize="18sp" />
 
             </LinearLayout>
