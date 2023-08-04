@@ -20,6 +20,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.navbotdialog.APIUtils;
 import com.example.navbotdialog.R;
@@ -29,7 +31,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AgregarArticuloOrden extends AppCompatActivity {
 
@@ -38,6 +42,13 @@ public class AgregarArticuloOrden extends AppCompatActivity {
     TextView quantityTextView;
     EditText aao_cantidad;
     private Intent intent;
+
+    List<String> articleList = new ArrayList<>();
+    final List<Integer> quantityList = new ArrayList<>();
+    final List<Integer> idList = new ArrayList<>(); // Lista para almacenar los IDs
+    final List<String> descripcionList = new ArrayList<>();
+    final List<String> tipoList = new ArrayList<>();
+    final List<String> estadoList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,8 +86,10 @@ public class AgregarArticuloOrden extends AppCompatActivity {
                     } else if (enteredQuantity > quantity) {
                         Toast.makeText(AgregarArticuloOrden.this, "La cantidad excede la cantidad disponible", Toast.LENGTH_SHORT).show();
                     } else {
-                        // La cantidad ingresada es válida, puedes proceder con la lógica de guardar la orden
-                        // Aquí puedes agregar tu código para guardar la orden
+                        //Guardar los datos en la lista temporal
+                        guardarDatosEnTemporal(selectedArticle, enteredQuantity);
+
+                        //Envia el otro fragmento
                         startActivity(intent);
                     }
                 }
@@ -102,15 +115,25 @@ public class AgregarArticuloOrden extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        List<String> articleList = new ArrayList<>();
-                        final List<Integer> quantityList = new ArrayList<>(); // Lista para almacenar las cantidades
+
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject article = response.getJSONObject(i);
+
+                                int id = article.getInt("id");
                                 String articleName = article.getString("nombre");
+                                String descripcion = article.getString("descripcion");
                                 int quantity = article.getInt("cantidad");
+                                String tipo = article.getString("tipo");
+                                String estado = article.getString("estado");
+
+                                idList.add(id);
                                 articleList.add(articleName);
-                                quantityList.add(quantity); // Agregar la cantidad a la lista
+                                descripcionList.add(descripcion);
+                                quantityList.add(quantity);
+                                tipoList.add(tipo);
+                                estadoList.add(estado);
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -144,5 +167,43 @@ public class AgregarArticuloOrden extends AppCompatActivity {
 
         queue.add(request);
     }
+    private void guardarDatosEnTemporal(String selectedArticle, int enteredQuantity) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String route = "/api/temporalLA/";
+        String url = APIUtils.getFullUrl(route);
+
+        JSONObject requestBody = new JSONObject();
+        try {
+            // Obtener el id del artículo seleccionado según el nombre
+            int selectedArticleId = idList.get(articleList.indexOf(selectedArticle));
+
+            requestBody.put("id_articulo", selectedArticleId);
+            requestBody.put("articulo", selectedArticle);
+            requestBody.put("cantidad", enteredQuantity);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Manejar la respuesta del servidor en caso de éxito
+                        Toast.makeText(AgregarArticuloOrden.this, "Datos guardados en la lista temporal", Toast.LENGTH_SHORT).show();
+                        // Puedes realizar otras acciones o redireccionar a otra actividad aquí
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar el error en caso de que falle la solicitud
+                        Toast.makeText(AgregarArticuloOrden.this, "Error al guardar datos en la lista temporal", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        queue.add(request);
+    }
+
 
 }
