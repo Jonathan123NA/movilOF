@@ -42,7 +42,6 @@ public class AgregarArticuloOrden extends AppCompatActivity {
     TextView quantityTextView;
     EditText aao_cantidad;
     private Intent intent;
-
     List<String> articleList = new ArrayList<>();
     final List<Integer> quantityList = new ArrayList<>();
     final List<Integer> idList = new ArrayList<>(); // Lista para almacenar los IDs
@@ -204,6 +203,8 @@ public class AgregarArticuloOrden extends AppCompatActivity {
 
         queue.add(request);
     }
+
+
 
 
 }
