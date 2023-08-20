@@ -33,6 +33,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.navbotdialog.Orden.AgregarArticuloOrden;
 import com.example.navbotdialog.Orden.CrearOrden;
+import com.example.navbotdialog.Scanner.ScannerActivity;
 import com.example.navbotdialog.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -304,6 +305,16 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, CrearOrden.class);
                 startActivity(intent);
 
+            }
+        });
+
+        LinearLayout post_layot2 = dialog.findViewById(R.id.buttomsheetlayout_scanner);
+        post_layot2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
+                startActivity(intent);
             }
         });
 

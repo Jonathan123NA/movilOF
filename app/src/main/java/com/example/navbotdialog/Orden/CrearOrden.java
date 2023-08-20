@@ -36,7 +36,6 @@ public class CrearOrden extends AppCompatActivity {
         btn_agregarA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(CrearOrden.this, AgregarArticuloOrden.class);
                 startActivity(intent);
             }

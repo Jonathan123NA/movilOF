@@ -121,7 +121,7 @@
                  <ImageView
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:src="@drawable/ico_notificaciones"
+                     android:src="@drawable/ico_scanner"
                      />
 
                  <!--   <com.airbnb.lottie.LottieAnimationView
@@ -137,7 +137,7 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:visibility="gone"
-                       android:text="Notificaciones"
+                       android:text="Checking"
                        android:textColor="@color/white"
                        android:layout_marginStart="10dp"
                        android:textSize="16sp"/>

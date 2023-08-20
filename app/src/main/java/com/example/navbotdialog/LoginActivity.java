@@ -186,6 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                                             //UserSession.getInstance().setUserId(userId); // Establecer el ID del usuario en la sesión
                                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(intent);
+                                            Toast.makeText(LoginActivity.this, "Se ha iniciado sesión", Toast.LENGTH_SHORT).show();
                                         } else {
                                             // Credenciales inválidas, mostrar mensaje de error
                                             Toast.makeText(LoginActivity.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show();

@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/nav_notificaciones"
         android:name="com.example.navbotdialog.Fragment.NotificacionesFragment"
-        android:label="Notificaciones"
+        android:label="Checking"
         tools:layout="@layout/fragment_notificaciones" />
 
     <fragment
@@ -34,5 +34,11 @@
         android:name="com.example.navbotdialog.Orden.CrearOrden"
         android:label="Crear Orden"
         tools:layout="@layout/actuvity_crear_orden" />
+
+    <fragment
+        android:id="@+id/nav_scanner"
+        android:name="com.example.navbotdialog.Fragment.ScannerFragment"
+        android:label="Scanner"
+        tools:layout="@layout/fragment_scanner" />
 
 </navigation>

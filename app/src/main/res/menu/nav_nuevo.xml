@@ -12,8 +12,8 @@
             android:title="Ordenes" />
         <item
             android:id="@+id/nav_notificaciones"
-            android:icon="@drawable/notify"
-            android:title="Notificaciones" />
+            android:icon="@drawable/ico_scanner"
+            android:title="Checking" />
         <item
             android:id="@+id/nav_perfil"
             android:icon="@drawable/ico_perfil"

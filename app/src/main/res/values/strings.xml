@@ -19,6 +19,7 @@
     <string name="txt_a">A:</string>
     <string name="title_activity_scanner">ScannerActivity</string>
 
+    <string name="edit_icon_description">Editar</string>
+    <string name="delete_icon_description">Eliminar</string>
 
-    btn_Convertir
 </resources>
