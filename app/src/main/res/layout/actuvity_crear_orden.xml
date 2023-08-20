@@ -57,7 +57,9 @@
                     android:hint="No. Orden"
                     android:background="@drawable/background_edit_text"
                     android:maxLines="1"
-                    android:inputType="text"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:textSize="16sp"
                     android:maxLength="25"
                     android:paddingStart="20dp"
@@ -65,6 +67,27 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="Encargado"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <Spinner
+                    android:id="@+id/co_Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:ems="10"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -191,8 +214,6 @@
                     android:textColor="@color/Blanco"
                     android:translationZ="200dp"
                     app:cornerRadius="100dp" />
-
-
 
             </LinearLayout>
 

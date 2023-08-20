@@ -4,11 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- Vista para mostrar la cámara -->
+
     <SurfaceView
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        />
 
+<<<<<<< HEAD
     <!-- Botón para iniciar el escáner -->
     <Button
         android:id="@+id/btn_scan"
@@ -20,4 +24,6 @@
         android:text="Escanear"
         android:textColor="@color/white"
         android:textSize="20sp" />
+=======
+>>>>>>> 885e83252e81e7ac71166578e22bd50d4244cf8d
 </RelativeLayout>

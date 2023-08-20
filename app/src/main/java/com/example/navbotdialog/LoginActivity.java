@@ -200,7 +200,9 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
                                     // Manejar el error de la solicitud HTTP
-                                    Toast.makeText(LoginActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                                    Log.d("Error de conexion", String.valueOf(error));
+                                    Toast.makeText(LoginActivity.this, "Error de conexión"+error, Toast.LENGTH_SHORT).show();
+
                                 }
                             });
 

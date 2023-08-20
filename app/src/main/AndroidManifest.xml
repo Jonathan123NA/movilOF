@@ -55,6 +55,9 @@
             android:name=".Orden.AgregarArticuloOrden"
             android:exported="false" />
         <activity
+            android:name=".Orden.EditarArticuloOrden"
+            android:exported="false" />
+        <activity
             android:name=".Splash"
             android:exported="true">
             <intent-filter>

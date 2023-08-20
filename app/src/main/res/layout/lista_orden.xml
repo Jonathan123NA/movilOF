@@ -17,6 +17,12 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/listaO_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <TextView
                 android:id="@+id/listaO_Cantidad"
                 android:text="0"
                 android:layout_alignParentStart="true"
