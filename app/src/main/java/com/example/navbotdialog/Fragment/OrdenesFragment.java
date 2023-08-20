@@ -51,7 +51,8 @@ public class OrdenesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_ordenes, container, false);
 
         UserSession userSession = UserSession.getInstance();
-        int userId = userSession.getUserId();
+        //int userId = userSession.getUserId();
+        int userId = 6;
 
         System.out.println("ID: " + userId);
 
@@ -109,7 +110,7 @@ public class OrdenesFragment extends Fragment {
     //Tabla ordennes usuario
     private void makeGetRequest(int userId) {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        String url = APIUtils.getFullUrl("/______" + userId);
+        String url = APIUtils.getFullUrl("/api/orden_usuarios/?/" + userId);
 
         System.out.println("URL: " + url);
 

@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
 
                 id.setText(splitData[0]);
                 fInicio.setText(splitData[1]);
-                descripcion.setText(splitData[4]);
+                descripcion.setText(splitData[3]);
             }
 
             @Override
@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment {
                                 String estado = jsonObject.getString("estado");
                                 String descripcion = jsonObject.getString("descripcion");
 
-                                String data = id + ";" + fecha_inicio + ";" + fecha_fin + ";" + estado + ";" + descripcion;
+                                String data = id + ";" + fecha_inicio + ";" + fecha_fin + ";" + descripcion + ";" + estado;
 
                                 tempList.add(data);
                             } catch (JSONException e) {

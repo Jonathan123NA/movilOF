@@ -35,6 +35,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.navbotdialog.APIUtils;
+import com.example.navbotdialog.MainActivity;
 import com.example.navbotdialog.R;
 import com.example.navbotdialog.UserSession;
 
@@ -66,7 +67,7 @@ public class CrearOrden extends AppCompatActivity {
 
         UserSession userSession = UserSession.getInstance();
         int userId = userSession.getUserId();
-        Toast.makeText(this, "Entraste con: "+ userId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Entraste con: "+ userId, Toast.LENGTH_SHORT).show();
 
         Toolbar toolbar = findViewById(R.id.CO_toolbar);
         setSupportActionBar(toolbar);
@@ -100,6 +101,12 @@ public class CrearOrden extends AppCompatActivity {
                 guardarOrden(userId);
                 guardarOrdenUsuario();
                 guardarOrdenArticulo();
+                // Llama a la función para eliminar todos los registros
+                deleteAllRecords();
+
+                Toast.makeText(CrearOrden.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CrearOrden.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -110,6 +117,8 @@ public class CrearOrden extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                // Llama a la función para eliminar todos los registros
+                deleteAllRecords();
             }
         });
 
@@ -136,7 +145,7 @@ public class CrearOrden extends AppCompatActivity {
                 cantidad.setText(splitData[2]);
                 idPuestoTextView.setText(splitData[3]);
 
-                String idAr = cantidad.getText().toString();
+                String idAr = idPuestoTextView.getText().toString();
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -412,7 +421,7 @@ public class CrearOrden extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String route = "/api/orden_usuarios/";
         String url = APIUtils.getFullUrl(route);
-        String valor = no_orden.getText().toString();
+        int valor = Integer.parseInt(no_orden.getText().toString());
 
         JSONObject requestBody = new JSONObject();
         try {
@@ -426,6 +435,7 @@ public class CrearOrden extends AppCompatActivity {
             //Toast.makeText(this, "El valor de ORDER ID : "+ valor, Toast.LENGTH_SHORT).show();
             requestBody.put("id_orden",valor);
             requestBody.put("id_usuario", selectedArticleId);
+            Log.d("Request Body", requestBody.toString()); // Imprime el JSON en la consola
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -435,17 +445,15 @@ public class CrearOrden extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Manejar la respuesta del servidor en caso de éxito
-                        //Toast.makeText(CRear.this, "Datos guardados en la lista temporal", Toast.LENGTH_SHORT).show();
-                        // Puedes realizar otras acciones o redireccionar a otra actividad aquí
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Manejar el error en caso de que falle la solicitud
-                        Toast.makeText(CrearOrden.this, "Error al guardar datos", Toast.LENGTH_SHORT).show();
-                        Log.d("Request Body", requestBody.toString()); // Imprime el JSON en la consola
+                        Toast.makeText(CrearOrden.this, "Error al guardar datos en Orden Usuario", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
@@ -456,7 +464,8 @@ public class CrearOrden extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String route = "/api/orden_articulos/";
         String url = APIUtils.getFullUrl(route);
-        String valor = no_orden.getText().toString();
+        int valor = Integer.parseInt(no_orden.getText().toString());
+        //Toast.makeText(this, "Numero de la orden es "+valor, Toast.LENGTH_SHORT).show();
 
         JSONObject requestBody = new JSONObject();
         try {
@@ -469,6 +478,8 @@ public class CrearOrden extends AppCompatActivity {
                 JSONObject articleData = new JSONObject();
                 articleData.put("id_orden", valor); // Mismo ID de orden para cada artículo
                 articleData.put("id_articulo", idArticulo); // ID del artículo actual
+
+                Log.d("Request Body", articleData.toString()); // Imprime el JSON en la consola
             }
 
         } catch (JSONException e) {
@@ -489,11 +500,34 @@ public class CrearOrden extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         // Manejar el error en caso de que falle la solicitud
                         Toast.makeText(CrearOrden.this, "Error al guardar datos en guardarOrdenArticulo", Toast.LENGTH_SHORT).show();
-                        Log.d("Request Body", requestBody.toString()); // Imprime el JSON en la consola
+
                     }
                 });
 
         queue.add(request);
+    }
+
+    private void deleteAllRecords() {
+        String route = "/api/temporalLAAL/";
+        String url = APIUtils.getFullUrl(route);
+
+        // Crea una nueva solicitud de Volley
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // La respuesta del servidor, aquí puedes manejar la respuesta si es necesario
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Error en la solicitud, aquí puedes manejar el error si es necesario
+            }
+        });
+
+        // Agrega la solicitud a la cola de Volley
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 
